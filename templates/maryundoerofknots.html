@@ -33,6 +33,28 @@
         align: left;
     }
 
+
+
+    div.home_bg {
+    border 2px solid black;
+    }
+    div.home_bg_text {
+    margin: 30px;
+    background-color: #ffffff;
+    border: 1px solid black;
+    }
+    div.home_bg_text p {
+    margin: 5%;
+    font-weight: bold;
+    color: #000000
+    }
+    .home_menu {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 30%;
+    }
+
     .topnav {
       overflow: hidden;
       background-color: #E7F0DC;
@@ -76,16 +98,16 @@
     font-family: 'Poppins', sans-serif;
     }
     .church_home {
-
-        display: block;
-          margin-left: auto;
-          margin-right: auto;
-          width: 90%;
+    display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 90%;
     }
     .text_home_02 {
         font-size: 22px;
         align:center;
         font-weight: 300;
+        color: #525FE1;
     }
 
 
@@ -169,9 +191,9 @@
 <a href="#home-show" onclick="showHomeDiv()"> Home</a>
 <a href="#about-show" onclick="hideHomeDiv()"> About</a>
 <a href="#masstiming-show" onclick="hideHomeDiv()"> Mass Timings</a>
-<a href="#events-show" onclick="hideHomeDiv()"> Events</a>
+<!--<a href="#events-show" onclick="hideHomeDiv()"> Events</a>-->
 <a href="#gallery-show" onclick="hideHomeDiv()"> Gallery</a>
-<a href="#massoffering-show" onclick="hideHomeDiv()"> Mass Offering</a>
+<!--<a href="#massoffering-show" onclick="hideHomeDiv()"> Mass Offering</a>-->
 <a href="#connectus-show" onclick="hideHomeDiv()"> Contact us</a>
 </div>
 <!--HTML-->
@@ -185,53 +207,104 @@
        <img src="{{url_for('static', filename='photos/church_home.jpg')}}" class="church_home">
     </div>
     <br>
-    <table id="homeContent3">
-          <tr>
-            <th>Prayer to Mary, Undoer of Knots</th>
-            <th>துன்ப முடிச்சுகளை அவிழ்க்கும் அன்னையை நோக்கி செபம்</th>
-          </tr>
-          <tr><td width="50%"><p>Virgin Mary, Mother of fair love, Mother who never refuses to <br>
-                    come to the aid of a child in need, Mother whose hands never cease to <br>
-                    serve your beloved children because they are moved by the <br>
-                    divine love and immense mercy that exists in your <br>
-                    heart, cast your compassionate eyes upon me and see the <br>
-                    snarl of knots that exist in my life. You know very well <br>
-                    how desperate I am, my pain, and how I am bound by these knots. <br>
-                    Mary, Mother to whom God entrusted the undoing of the <br>
-                    knots in the lives of his children, I entrust into <br>
-                    your hands the ribbon of my life. No one, not even the <br>
-                    Evil One himself, can take it away from your precious care. <br>
-                    In your hands there is no knot that cannot be undone. <br>
-                    Powerful Mother, by your grace and intercessory power with <br>
-                    Your Son and My Liberator, Jesus, take into your hands today this knot.<br><br><br>
-                    [Mention your request here] <br><br><br>
-                    I beg you to undo it for the glory of God, once for all. <br>
-                    You are my hope. O my Lady, you are the only consolation <br>
-                    God gives me, the fortification of my feeble strength, <br>
-                    the enrichment of my destitution, and, with Christ, <br>
-                    the freedom from my chains. Hear my plea. Keep me, guide me, <br>
-                    protect me, o safe refuge! Mary, Undoer of Knots, pray for me.</p></td>
-                <td width="50%"> <p>கன்னிமரியே / அழகு அன்புத்தாயே / மன்றாடும் குழந்தையை / ஒருபோதும் புறக்கணியாத அன்னையே /<br>
-                    உமது திருஇதயத்திலிருந்து / பெருக்கெடுத்து வழியும் / அன்பினாலும் முடிவில்லாத இரக்கத்தினாலும் / குழந்தைகள் எமக்காக /<br>
-                    அயராது உழைக்கும் திருக்கரங்கள் கொண்ட திருவுருவே / உமது கருணைப்பார்வையை / எம்மீது திருப்பி / <br>
-                    எனது வாழ்வில் திணற வைக்கும் / முடிச்சுகளை கண்ணோக்கியருளும் / எனது துன்ப வலிகளை / <br>
-                    செயலிழக்கச் செய்யும் / துன்ப முடிச்சுகள் அனைத்தையும் / நீர் அறிவீர் / எங்கள் வாழ்க்கை நூலில் / <br>
-                    விழும் முடிச்சுகளை அவிழ்க்க / கடவுளிடமிருந்து பொறுப்பு பெற்ற தாயே / உமது திருக்கரங்களில் / <br>
-                    என் வாழ்வை ஒப்படைக்கிறேன் / உமது இரக்கப்பெருக்கை /ஒரு போதும் /ஒருவரும் நிறுத்த முடியாதென்றும் /<br>
-                    உம்மால் அவிழ்க்க முடியாத/முடிச்சு உலகில் ஒன்றுமில்லை என்றும் / நம்புகிறேன் / <br>
-                    வல்லமையின் தாயே / ஆண்டவர் இயேசுவிடம் பரிந்துபேசும் /உமது பலத்தினால்/<br>
-                    என்னை வாட்டி வதைக்கும் இந்த சிக்கலான முடிச்சுகளை/<br><br><br>
-                    (அமைதியாக ஒரு நிமிடம் துன்ப முடிச்சுகளை மனக் கண்முன் கொண்டு வரவும்)<br><br><br>
-                    உமது தூய திருக்கரங்களில் பெற்றுக்கொள்ளும் / தந்தையாம் கடவுளின் / <br>
-                    உன்னத மகிமை வெளிப்படும்படி / எனது துன்ப முடிச்சுகளை / <br>
-                    இப்போதும் என்றென்றைக்கும் அவிழ்த்துப் போடும் எனக்கு ஆறுதல் வழங்க / <br>
-                    கடவுளால் அருளப்பட்டவர் நீர் / எனது பலவீனத்தில்/என் வலிமை நீரே / <br>
-                    உம் திருமகன் இயேசுவிடமிருந்து / என்னைப் பிரிக்கும் சக்திகளை / <br>
-                    அழிப்பவரும் நீரே / அம்மா எனக்குப் பதில் தாரும் / பாதுகாத்தருளும் / <br>
-                    வழிநடத்தும் / காப்பாற்றும்/ஏனெனில் /நீயே என் உறுதியான அடைக்கலம் /<br>
-                    உம் மீது என் நம்பிக்கையை வைக்கிறேன். ஆமென்.</p></td>
-          </tr>
-    </table>
+    <div class="home_bg" background="{{url_for('static', filename='photos/logo.png')}}">
+        <div class="home_bg_text">
+            <img src="{{url_for('static', filename='photos/logo.png')}}" class="home_menu">
+            <p align="center">துன்ப முடிச்சுகளை அவிழ்க்கும் அன்னையை நோக்கி செபம்</p>
+            <p>கன்னிமரியே / அழகு அன்புத்தாயே / மன்றாடும் குழந்தையை / ஒருபோதும் புறக்கணியாத அன்னையே /
+                    உமது திருஇதயத்திலிருந்து / பெருக்கெடுத்து வழியும் / அன்பினாலும் முடிவில்லாத இரக்கத்தினாலும் / குழந்தைகள் எமக்காக /
+                    அயராது உழைக்கும் திருக்கரங்கள் கொண்ட திருவுருவே / உமது கருணைப்பார்வையை / எம்மீது திருப்பி /
+                    எனது வாழ்வில் திணற வைக்கும் / முடிச்சுகளை கண்ணோக்கியருளும் / எனது துன்ப வலிகளை /
+                    செயலிழக்கச் செய்யும் / துன்ப முடிச்சுகள் அனைத்தையும் / நீர் அறிவீர் / எங்கள் வாழ்க்கை நூலில் /
+                    விழும் முடிச்சுகளை அவிழ்க்க / கடவுளிடமிருந்து பொறுப்பு பெற்ற தாயே / உமது திருக்கரங்களில் /
+                    என் வாழ்வை ஒப்படைக்கிறேன் / உமது இரக்கப்பெருக்கை /ஒரு போதும் /ஒருவரும் நிறுத்த முடியாதென்றும் /
+                    உம்மால் அவிழ்க்க முடியாத/முடிச்சு உலகில் ஒன்றுமில்லை என்றும் / நம்புகிறேன் /
+                    வல்லமையின் தாயே / ஆண்டவர் இயேசுவிடம் பரிந்துபேசும் /உமது பலத்தினால்/
+                    என்னை வாட்டி வதைக்கும் இந்த சிக்கலான முடிச்சுகளை/<br><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(அமைதியாக ஒரு நிமிடம் துன்ப முடிச்சுகளை மனக் கண்முன் கொண்டு வரவும்)<br><br>
+                    உமது தூய திருக்கரங்களில் பெற்றுக்கொள்ளும் / தந்தையாம் கடவுளின் /
+                    உன்னத மகிமை வெளிப்படும்படி / எனது துன்ப முடிச்சுகளை /
+                    இப்போதும் என்றென்றைக்கும் அவிழ்த்துப் போடும் எனக்கு ஆறுதல் வழங்க /
+                    கடவுளால் அருளப்பட்டவர் நீர் / எனது பலவீனத்தில்/என் வலிமை நீரே /
+                    உம் திருமகன் இயேசுவிடமிருந்து / என்னைப் பிரிக்கும் சக்திகளை /
+                    அழிப்பவரும் நீரே / அம்மா எனக்குப் பதில் தாரும் / பாதுகாத்தருளும் /
+                    வழிநடத்தும் / காப்பாற்றும்/ஏனெனில் /நீயே என் உறுதியான அடைக்கலம் /
+                    உம் மீது என் நம்பிக்கையை வைக்கிறேன். ஆமென்.</p><br>
+            <hr>
+            <p align="center">Prayer to Mary, Undoer of Knots</p>
+            <p>Virgin Mary, Mother of fair love, Mother who never refuses to
+                    come to the aid of a child in need, Mother whose hands never cease to
+                    serve your beloved children because they are moved by the
+                    divine love and immense mercy that exists in your
+                    heart, cast your compassionate eyes upon me and see the
+                    snarl of knots that exist in my life. You know very well
+                    how desperate I am, my pain, and how I am bound by these knots.
+                    Mary, Mother to whom God entrusted the undoing of the
+                    knots in the lives of his children, I entrust into
+                    your hands the ribbon of my life. No one, not even the
+                    Evil One himself, can take it away from your precious care.
+                    In your hands there is no knot that cannot be undone.
+                    Powerful Mother, by your grace and intercessory power with
+                    Your Son and My Liberator, Jesus, take into your hands today this knot.<br><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Mention your request here] <br><br>
+                    I beg you to undo it for the glory of God, once for all.
+                    You are my hope. O my Lady, you are the only consolation
+                    God gives me, the fortification of my feeble strength,
+                    the enrichment of my destitution, and, with Christ,
+                    the freedom from my chains. Hear my plea. Keep me, guide me,
+                    protect me, o safe refuge! Mary, Undoer of Knots, pray for me.</p>
+
+
+        </div>
+    </div>
+
+<!--    <table id="homeContent3">-->
+<!--          <tr>-->
+<!--            <th>Prayer to Mary, Undoer of Knots</th>-->
+<!--            <th>துன்ப முடிச்சுகளை அவிழ்க்கும் அன்னையை நோக்கி செபம்</th>-->
+<!--          </tr>-->
+<!--          <tr><td width="50%"><p>Virgin Mary, Mother of fair love, Mother who never refuses to <br>-->
+<!--                    come to the aid of a child in need, Mother whose hands never cease to <br>-->
+<!--                    serve your beloved children because they are moved by the <br>-->
+<!--                    divine love and immense mercy that exists in your <br>-->
+<!--                    heart, cast your compassionate eyes upon me and see the <br>-->
+<!--                    snarl of knots that exist in my life. You know very well <br>-->
+<!--                    how desperate I am, my pain, and how I am bound by these knots. <br>-->
+<!--                    Mary, Mother to whom God entrusted the undoing of the <br>-->
+<!--                    knots in the lives of his children, I entrust into <br>-->
+<!--                    your hands the ribbon of my life. No one, not even the <br>-->
+<!--                    Evil One himself, can take it away from your precious care. <br>-->
+<!--                    In your hands there is no knot that cannot be undone. <br>-->
+<!--                    Powerful Mother, by your grace and intercessory power with <br>-->
+<!--                    Your Son and My Liberator, Jesus, take into your hands today this knot.<br><br><br>-->
+<!--                    [Mention your request here] <br><br><br>-->
+<!--                    I beg you to undo it for the glory of God, once for all. <br>-->
+<!--                    You are my hope. O my Lady, you are the only consolation <br>-->
+<!--                    God gives me, the fortification of my feeble strength, <br>-->
+<!--                    the enrichment of my destitution, and, with Christ, <br>-->
+<!--                    the freedom from my chains. Hear my plea. Keep me, guide me, <br>-->
+<!--                    protect me, o safe refuge! Mary, Undoer of Knots, pray for me.</p></td>-->
+<!--                <td width="50%"> <p>கன்னிமரியே / அழகு அன்புத்தாயே / மன்றாடும் குழந்தையை / ஒருபோதும் புறக்கணியாத அன்னையே /<br>-->
+<!--                    உமது திருஇதயத்திலிருந்து / பெருக்கெடுத்து வழியும் / அன்பினாலும் முடிவில்லாத இரக்கத்தினாலும் / குழந்தைகள் எமக்காக /<br>-->
+<!--                    அயராது உழைக்கும் திருக்கரங்கள் கொண்ட திருவுருவே / உமது கருணைப்பார்வையை / எம்மீது திருப்பி / <br>-->
+<!--                    எனது வாழ்வில் திணற வைக்கும் / முடிச்சுகளை கண்ணோக்கியருளும் / எனது துன்ப வலிகளை / <br>-->
+<!--                    செயலிழக்கச் செய்யும் / துன்ப முடிச்சுகள் அனைத்தையும் / நீர் அறிவீர் / எங்கள் வாழ்க்கை நூலில் / <br>-->
+<!--                    விழும் முடிச்சுகளை அவிழ்க்க / கடவுளிடமிருந்து பொறுப்பு பெற்ற தாயே / உமது திருக்கரங்களில் / <br>-->
+<!--                    என் வாழ்வை ஒப்படைக்கிறேன் / உமது இரக்கப்பெருக்கை /ஒரு போதும் /ஒருவரும் நிறுத்த முடியாதென்றும் /<br>-->
+<!--                    உம்மால் அவிழ்க்க முடியாத/முடிச்சு உலகில் ஒன்றுமில்லை என்றும் / நம்புகிறேன் / <br>-->
+<!--                    வல்லமையின் தாயே / ஆண்டவர் இயேசுவிடம் பரிந்துபேசும் /உமது பலத்தினால்/<br>-->
+<!--                    என்னை வாட்டி வதைக்கும் இந்த சிக்கலான முடிச்சுகளை/<br><br><br>-->
+<!--                    (அமைதியாக ஒரு நிமிடம் துன்ப முடிச்சுகளை மனக் கண்முன் கொண்டு வரவும்)<br><br><br>-->
+<!--                    உமது தூய திருக்கரங்களில் பெற்றுக்கொள்ளும் / தந்தையாம் கடவுளின் / <br>-->
+<!--                    உன்னத மகிமை வெளிப்படும்படி / எனது துன்ப முடிச்சுகளை / <br>-->
+<!--                    இப்போதும் என்றென்றைக்கும் அவிழ்த்துப் போடும் எனக்கு ஆறுதல் வழங்க / <br>-->
+<!--                    கடவுளால் அருளப்பட்டவர் நீர் / எனது பலவீனத்தில்/என் வலிமை நீரே / <br>-->
+<!--                    உம் திருமகன் இயேசுவிடமிருந்து / என்னைப் பிரிக்கும் சக்திகளை / <br>-->
+<!--                    அழிப்பவரும் நீரே / அம்மா எனக்குப் பதில் தாரும் / பாதுகாத்தருளும் / <br>-->
+<!--                    வழிநடத்தும் / காப்பாற்றும்/ஏனெனில் /நீயே என் உறுதியான அடைக்கலம் /<br>-->
+<!--                    உம் மீது என் நம்பிக்கையை வைக்கிறேன். ஆமென்.</p></td>-->
+<!--          </tr>-->
+<!--    </table>-->
     <br>
 
 </div>
@@ -247,7 +320,11 @@
         </tr>
         <tr>
         <td><p>The devotion to Mary, Undoer of Knots dates back to the beginning of the 18th Century when a famous painting from that time period, carrying the same name, became well known. However, it isn’t until the end of the 20th Century that the image of the painting becomes known all over resulting in Catholic devotion worldwide. The novena to Mary, Undoer of Knots as a result is one of the most prayed novenas in the world!</p></td>
-        <td><p>மேரி மீதான பக்தி, முடிச்சுகளை அவிழ்ப்பவர் 18 ஆம் நூற்றாண்டின் தொடக்கத்தில் இருந்து அதே பெயரைக் கொண்ட ஒரு பிரபலமான ஓவியம் நன்கு அறியப்பட்டது. இருப்பினும், 20 ஆம் நூற்றாண்டின் இறுதி வரை ஓவியத்தின் உருவம் உலகம் முழுவதும் கத்தோலிக்க பக்தியின் விளைவாக அறியப்பட்டது. இதன் விளைவாக முடிச்சுகளை அவிழ்த்த மேரிக்கு நோவெனா உலகில் அதிகம் பிரார்த்தனை செய்யப்படும் நோவெனாக்களில் ஒன்றாகும்!</p></td>
+        <td><p>மேரி மீதான பக்தி, முடிச்சுகளை அவிழ்ப்பவர், 18 ஆம் நூற்றாண்டின் தொடக்கத்தில் இருந்து அதே பெயரைக் கொண்ட ஒரு பிரபலமான ஓவியம் நன்கு அறியப்பட்டது. இருப்பினும், 20 ஆம் நூற்றாண்டின் இறுதி வரை ஓவியத்தின் உருவம் உலகம் முழுவதும் கத்தோலிக்க பக்தியின் விளைவாக அறியப்பட்டது. இதன் விளைவாக முடிச்சுகளை அவிழ்த்த மேரிக்கு நோவெனா உலகில் அதிகம் பிரார்த்தனை செய்யப்படும் நோவெனாக்களில் ஒன்றாகும்!</p></td>
+       </tr>
+        <tr>
+        <td><p>Up until the twentieth Century, the devotion to Mary, Undoer of Knots existed only in Germany. But in the eighties, when the future Pope Francis was finishing his thesis for his doctorate in Augsburg, near Munich, he was profoundly moved by the painting. He took pictures back of the painting and started distributing them in Argentina. He also had a few copies made of the painting. Soon enough, an important movement of popular piety spread all through Latin America and throughout the world.<br><br>In 1997, Father Ramon Celeiro, parish priest for Jorge Mario Bergoglio (futur Pope Francis) wrote a novena especially for Mary, Undoer of Knots. Even though it was initially written for the parishioners, it was rapidly diffused worldwide.</p></td>
+        <td><p>இருபதாம் நூற்றாண்டு வரை, மேரி, அண்டூயர் ஆஃப் நாட்ஸ் மீதான பக்தி ஜெர்மனியில் மட்டுமே இருந்தது. ஆனால் எண்பதுகளில், வருங்கால போப் பிரான்சிஸ், முனிச் அருகே உள்ள ஆக்ஸ்பர்க்கில் தனது முனைவர் பட்டத்திற்கான ஆய்வறிக்கையை முடித்துக் கொண்டிருந்தபோது, ​​அந்த ஓவியம் அவரை மிகவும் கவர்ந்தது. அவர் ஓவியத்தின் பின்புற படங்களை எடுத்து அர்ஜென்டினாவில் விநியோகிக்கத் தொடங்கினார். அந்த ஓவியத்தின் சில பிரதிகளும் அவரிடம் இருந்தன. விரைவில், லத்தீன் அமெரிக்கா முழுவதும் மற்றும் உலகம் முழுவதும் பிரபலமான பக்தி இயக்கம் பரவியது.<br><br>1997 ஆம் ஆண்டில், ஜோர்ஜ் மரியோ பெர்கோக்லியோவின் (எதிர்கால போப் பிரான்சிஸ்) பாரிஷ் பாதிரியார் ஃபாதர் ரமோன் செலிரோ, குறிப்பாக முடிச்சுகளை அவிழ்த்த மேரிக்கு ஒரு நாவலை எழுதினார். இது ஆரம்பத்தில் திருச்சபையினருக்காக எழுதப்பட்டிருந்தாலும், அது வேகமாக உலகம் முழுவதும் பரவியது.!</p></td>
        </tr>
     </table>
 </div>
@@ -379,7 +456,7 @@
           </tr>
         <tr>
                 <td> Youtube Channel</td>
-                <td> @MaryUntierofKnotsThalamnbur</td>
+                <td><a href="https://www.youtube.com/@MaryUntierofKnotsThalambur">@MaryUntierofKnotsThalamnbur</a> </td>
           </tr>
     </table>
 </div>

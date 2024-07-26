@@ -1,7 +1,3 @@
-www.maryundoerofknotschurch.com{
-    redir https://maryundoerofknotschurch.com
-}
-
 maryundoerofknotschurch.com {
     reverse_proxy localhost:8000
 }

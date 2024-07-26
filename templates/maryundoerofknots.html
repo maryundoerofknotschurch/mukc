@@ -20,7 +20,7 @@
     text-align: center;
     background: #0F67B1;
     color: white;
-    height:90px;
+    height:120px;
 
     box-sizing: border-box;
     scroll-behavior: smooth;
@@ -29,7 +29,7 @@
     }
 
     .logo {
-        max-width: 60px;
+        max-width: 80px;
         align: left;
     }
 
@@ -101,13 +101,13 @@
     display: block;
       margin-left: auto;
       margin-right: auto;
-      width: 90%;
+      width: 100%;
     }
     .text_home_02 {
-        font-size: 22px;
+        font-size: 15px;
         align:center;
         font-weight: 300;
-        color: #540375;
+        color: #132F2B;
     }
 
 
@@ -177,8 +177,8 @@
        <img src="{{url_for('static', filename='photos/logo.png')}}" class="logo" align="left">
     </div>
     <div>
-          <h2>Mary Undoer of Knots Church, Thalambur</h2>
-    <h3>துன்ப முடுச்சுகளை அவிழ்க்கும் அன்னை ஆலயம், தாழம்பூர்</h3>
+          <p>Asia's first</p></p><h2>Mary Undoer of Knots Church,Thalambur</h2>
+    <p>ஆசியாவின் முதல்</p></p<h2><b>துன்ப முடுச்சுகளை அவிழ்க்கும் அன்னை ஆலயம்,தாழம்பூர்</b></h2>
 
     </div>
 
@@ -199,14 +199,14 @@
 <!--HTML-->
 <div class="home" id="home-show">
 <!--    <p class="text-home" id="homeContent">HOME Content..</p>-->
-    <div class="container_02">
-        <div><p class="text_home_02" id="homeContent1" style="text-align:center;">Welcome to Mary Undoer of Knots Church, Thalambur, Chennai!. We are so glad you are here.</p></div>
-    </div>
-    <br>
+
     <div>
        <img src="{{url_for('static', filename='photos/church_home.jpg')}}" class="church_home">
     </div>
     <br>
+    <div class="container_02">
+        <div><p class="text_home_02" id="homeContent1" style="text-align:center;">Welcome to Mary Undoer of Knots Church, Thalambur, Chennai!. We are so glad you are here.</p></div>
+    </div>
     <div class="home_bg" background="{{url_for('static', filename='photos/logo.png')}}">
         <div class="home_bg_text">
             <img src="{{url_for('static', filename='photos/logo.png')}}" class="home_menu">

@@ -1,5 +1,5 @@
 www.maryundoerofknotschurch.com{
-    redir https://maryundoerofknotschurch.com{uri}
+    redir https://maryundoerofknotschurch.com
 }
 
 maryundoerofknotschurch.com {

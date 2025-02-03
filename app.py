@@ -5,9 +5,7 @@ app = Flask(__name__)
 # Sample announcements
 def get_announcements():
     return [
-        "Upcoming feast on March 15th!",
-        "New choir practice schedule updated.",
-        "Lenten season special prayers every Friday."
+        "Ash Wednesday on March 5,2025!",
     ]
 
 @app.route('/')

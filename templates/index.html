@@ -93,7 +93,7 @@
 <div class="container">
     <h2>New Announcements</h2>
     {% for announcement in announcements %}
-        <div class="announcement">{{ announcement }}</div>
+        <div class="announcement">{{ announcement  | safe }}</div>
     {% endfor %}
 </div>
 

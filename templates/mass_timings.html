@@ -69,6 +69,21 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        .image-box {
+            width: 80%;
+            max-width: 600px;
+            border: 5px solid #ccc;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            background-color: #f8f8f8;
+        }
+        .image-box img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -82,7 +97,9 @@
     <a href="/contact">Contact</a>
 </nav>
 <div class="container1">
-    <img src="static/lent2025.jpg" alt="Image 1">
+    <div class="image-box">
+            <img src="static/lent2025.jpg" alt="Lent 2025 Image">
+    </div>
     <img src="static/mass1.png" alt="Image 1">
     <img src="static/mass2.png" alt="Image 1">
 </div>

@@ -6,6 +6,7 @@ app = Flask(__name__)
 def get_announcements():
     return [
         "Ash Wednesday on March 5,2025!",
+        '<a href="mass-timings" style="color: blue; text-decoration: underline;">View Lent Mass Timing here</a>'
     ]
 
 @app.route('/')

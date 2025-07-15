@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'your-secret-key'
 
 ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'password'
+ADMIN_PASSWORD = 'frvinoth@july18'
 
 NEWS_FILE = 'data/news.csv'
 SCHEDULE_FILE = 'data/schedule.csv'

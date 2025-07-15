@@ -1,1 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mary Undoer of Knots Church</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; }
+    .nav-link.active { font-weight: bold; color: #0056b3 !important; }
+    .gallery-carousel img, .gallery-carousel video {
+      max-height: 300px; margin: 0 10px; border-radius: 10px;
+    }
+    .gallery-carousel {
+      white-space: nowrap; overflow: hidden;
+      animation: scroll-left 40s linear infinite;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="{{ url_for('static', filename='images/mary.jpg') }}" height="50" class="me-2 rounded-circle" alt="Mary">
+      <strong class="text-primary">Mary Undoer of Knots Church</strong>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#news">News & Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="#prayers">Prayers</a></li>
+        <li class="nav-item"><a class="nav-link" href="#schedule">Schedule</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <a href="#donate" class="btn btn-primary ms-3 me-2">Donate Now</a>
+        {% if session.get('admin') %}
+          <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary ms-2" title="Logout">
+            <i class="fas fa-user-circle"></i>
+          </a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="btn btn-outline-secondary ms-2" title="Admin Login">
+            <i class="fas fa-user"></i>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Flash Alerts -->
+<div class="container mt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show small" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endwith %}
+</div>
+
+<!-- Gallery Carousel -->
+<div class="gallery-carousel bg-dark py-3" id="gallery">
+  <img src="{{ url_for('static', filename='images/church.jpg') }}">
+  <video src="{{ url_for('static', filename='videos/church_clip.mp4') }}" autoplay muted loop></video>
+  <img src="{{ url_for('static', filename='images/mary.jpg') }}">
+  <img src="{{ url_for('static', filename='images/gallery3.jpg') }}">
+  <video src="{{ url_for('static', filename='videos/procession.mp4') }}" autoplay muted loop></video>
+</div>
+
+<!-- Welcome -->
+<section class="text-center py-4 bg-white">
+  <div class="container">
+    <h2 class="fw-bold mb-2" style="color: #0056b3;">Welcome to Mary Undoer of Knots Church</h2>
+    <p class="lead" style="color: #0056b3; max-width: 800px; margin: auto;">
+      Asia’s First Shrine Dedicated to Undoing the Knots of Life. <br>
+      We invite you to encounter the powerful intercession of Our Lady who unties the knots of suffering, confusion, and struggle.
+    </p>
+  </div>
+</section>
+
+<!-- Sections -->
+<div class="container py-5">
+
+  <!-- Home -->
+  <section id="home">
+    <h3 class="text-primary mb-3">Home</h3>
+    <p>About Mary Undoer of Knots Church
+Mary Undoer of Knots Church is Asia’s first shrine dedicated to Our Lady Undoer of Knots — a powerful devotion that brings comfort, healing, and hope to all who are bound by the struggles of life. Nestled in spiritual grace, this church serves as a beacon for those facing confusion, suffering, and life’s entanglements, offering them a sacred place to seek peace through Mary's gentle intercession.
+
+Inspired by the 17th-century German devotion popularized by Pope Francis, this church invites the faithful to entrust their “knots” — problems, fears, and burdens — to the Blessed Virgin Mary, trusting in her powerful love to undo them with divine care.
+
+Here, daily prayers, devotions, and spiritual activities nurture the soul, drawing visitors closer to Christ through Mary’s help. Whether through quiet reflection, the rosary, or celebration of the Holy Mass, the faithful experience the maternal embrace of Our Lady Undoer of Knots, who lovingly works to untangle the difficulties of our lives.</p>
+  </section>
+<hr>
+
+<!-- News -->
+<section id="news" class="mt-5">
+  <h3 class="text-primary mb-3">News & Events</h3>
+
+  {% if session.get('admin') %}
+    <form method="POST" action="{{ url_for('add_news') }}">
+      <div class="mb-2">
+        <input type="text" name="title" class="form-control" placeholder="Title" required>
+      </div>
+      <div class="mb-2">
+        <textarea name="content" class="form-control" rows="3" placeholder="News content" required></textarea>
+      </div>
+      <button class="btn btn-sm btn-primary">Add News</button>
+    </form>
+    <hr>
+  {% endif %}
+
+  {% if news %}
+{% for item in news %}
+    <div class="mb-3 border-bottom pb-2">
+      <h5 class="text-dark mb-1">{{ item.title }}</h5>
+      <p>{{ item.content }}</p>
+
+      {% if session.get('admin') %}
+      <form method="POST" action="{{ url_for('delete_news', index=loop.index0) }}" onsubmit="return confirm('Delete this news item?')">
+        <button class="btn btn-sm btn-outline-danger">Delete</button>
+      </form>
+      {% endif %}
+    </div>
+  {% endfor %}
+  {% else %}
+    <p class="text-muted">No news or events available currently. Please check back soon.</p>
+  {% endif %}
+</section>
+
+
+  <!-- Prayers -->
+  <section id="prayers" class="mt-5">
+    <h3 class="text-primary mb-3">Prayers</h3>
+    <p class="mb-4">Find the full Tamil and English versions of the Undoer of Knots prayer here.</p>
+    <div class="row">
+      <div class="col-md-4 text-center mb-3">
+        <img src="{{ url_for('static', filename='images/mary.jpg') }}" class="img-fluid rounded shadow-sm" style="height: 400px; object-fit: cover;">
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-header bg-secondary text-white fw-bold small">🙏 Tamil Prayer</div>
+          <div class="card-body small" style="overflow-y: auto; max-height: 400px;">
+            கன்னிமரியே / அழகு அன்புத்தாயே / மன்றாடும் குழந்தையை / ஒருபோதும் புறக்கணியாத அன்னையே / உமது திருஇதயத்திலிருந்து / பெருக்கெடுத்து வழியும் / அன்பினாலும் முடிவில்லாத இரக்கத்தினாலும் / குழந்தைகள் எமக்காக / அயராது உழைக்கும் திருக்கரங்கள் கொண்ட திருவுருவே / உமது கருணைப்பார்வையை / எம்மீது திருப்பி / எனது வாழ்வில் திணற வைக்கும் / முடிச்சுகளை கண்ணோக்கியருளும் / எனது துன்ப வலிகளை / செயலிழக்கச் செய்யும் / துன்ப முடிச்சுகள் அனைத்தையும் / நீர் அறிவீர் / எங்கள் வாழ்க்கை நூலில் / விழும் முடிச்சுகளை அவிழ்க்க / கடவுளிடமிருந்து பொறுப்பு பெற்ற தாயே / உமது திருக்கரங்களில் / என் வாழ்வை ஒப்படைக்கிறேன் / உமது இரக்கப்பெருக்கை /ஒரு போதும் /ஒருவரும் நிறுத்த முடியாதென்றும் / உம்மால் அவிழ்க்க முடியாத/முடிச்சு உலகில் ஒன்றுமில்லை என்றும் / நம்புகிறேன் / வல்லமையின் தாயே / ஆண்டவர் இயேசுவிடம் பரிந்துபேசும் /உமது பலத்தினால்/ என்னை வாட்டி வதைக்கும் இந்த சிக்கலான முடிச்சுகளை/
+
+                                (அமைதியாக ஒரு நிமிடம் துன்ப முடிச்சுகளை மனக் கண்முன் கொண்டு வரவும்)
+
+உமது தூய திருக்கரங்களில் பெற்றுக்கொள்ளும் / தந்தையாம் கடவுளின் / உன்னத மகிமை வெளிப்படும்படி / எனது துன்ப முடிச்சுகளை / இப்போதும் என்றென்றைக்கும் அவிழ்த்துப் போடும் எனக்கு ஆறுதல் வழங்க / கடவுளால் அருளப்பட்டவர் நீர் / எனது பலவீனத்தில்/என் வலிமை நீரே / உம் திருமகன் இயேசுவிடமிருந்து / என்னைப் பிரிக்கும் சக்திகளை / அழிப்பவரும் நீரே / அம்மா எனக்குப் பதில் தாரும் / பாதுகாத்தருளும் / வழிநடத்தும் / காப்பாற்றும்/ஏனெனில் /நீயே என் உறுதியான அடைக்கலம் / உம் மீது என் நம்பிக்கையை வைக்கிறேன். ஆமென்.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-header bg-dark text-white fw-bold small">🙏 English Prayer</div>
+          <div class="card-body small" style="overflow-y: auto; max-height: 400px;">
+            Virgin Mary, Mother of fair love, Mother who never refuses to come to the aid of a child in need, Mother whose hands never cease to serve your beloved children because they are moved by the divine love and immense mercy that exists in your heart, cast your compassionate eyes upon me and see the snarl of knots that exist in my life. You know very well how desperate I am, my pain, and how I am bound by these knots. Mary, Mother to whom God entrusted the undoing of the knots in the lives of his children, I entrust into your hands the ribbon of my life. No one, not even the Evil One himself, can take it away from your precious care. In your hands there is no knot that cannot be undone. Powerful Mother, by your grace and intercessory power with Your Son and My Liberator, Jesus, take into your hands today this knot.
+
+                        [Mention your request here]
+
+I beg you to undo it for the glory of God, once for all. You are my hope. O my Lady, you are the only consolation God gives me, the fortification of my feeble strength, the enrichment of my destitution, and, with Christ, the freedom from my chains. Hear my plea. Keep me, guide me, protect me, o safe refuge! Mary, Undoer of Knots, pray for me.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<hr>
+
+  <!-- Schedule -->
+<section id="schedule" class="mt-5">
+  <h3 class="text-primary mb-3">Mass Schedule</h3>
+
+  {% if session.get('admin') %}
+    <form method="POST" action="{{ url_for('add_schedule') }}" class="mb-4">
+      <div class="row">
+        <div class="col-md-3 mb-2">
+          <input type="text" name="day" class="form-control" placeholder="Day (e.g. Saturday)" required>
+        </div>
+        <div class="col-md-3 mb-2">
+          <input type="text" name="time" class="form-control" placeholder="Time (e.g. 6:30 AM)" required>
+        </div>
+        <div class="col-md-6 mb-2">
+          <input type="text" name="details" class="form-control" placeholder="Mass Details (e.g. Tamil Mass)" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-sm btn-primary">Add Schedule</button>
+    </form>
+    <hr>
+  {% endif %}
+
+  {% if schedule %}
+    <ul class="list-group">
+      {% for item in schedule %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div>
+            <strong>{{ item.day }}</strong> at <strong>{{ item.time }}</strong><br>
+            <small class="text-muted">{{ item.details }}</small>
+          </div>
+          {% if session.get('admin') %}
+            <form method="POST" action="{{ url_for('delete_schedule', index=loop.index0) }}"
+                  onsubmit="return confirm('Are you sure you want to delete this schedule?')">
+              <button class="btn btn-sm btn-outline-danger ms-3">Delete</button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">Mass schedule will be updated soon. Please check back later.</p>
+  {% endif %}
+</section>
+<hr>
+
+  <!-- Contact -->
+<!-- Contact Section -->
+<section id="contact" class="mt-5">
+  <div class="container">
+    <h3 class="text-primary mb-4">Contact Us</h3>
+
+    <div class="row">
+      <!-- Contact Info -->
+      <div class="col-md-6 mb-4">
+        <h5 class="fw-bold">📍 Church Details</h5>
+        <p><strong>Contact Person:</strong> Fr. Vinoth Kumar</p>
+        <p><strong>Contact Number:</strong> <a href="tel:+919345457764">+91 93454 57764</a></p>
+        <p><strong>Email:</strong>
+          <a href="mailto:maryundoerofknotschurch@gmail.com">maryundoerofknotschurch@gmail.com</a>
+        </p>
+
+        <div class="mt-4 d-flex gap-3">
+          <!-- WhatsApp -->
+          <a class="btn btn-success" href="https://wa.me/919345457764" target="_blank">
+            <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+          </a>
+
+          <!-- YouTube -->
+          <a class="btn btn-danger" href="https://www.youtube.com/@Thunbamudichiavilkumannai" target="_blank">
+            <i class="fab fa-youtube"></i> Visit YouTube
+          </a>
+        </div>
+
+        <!-- Map Link -->
+        <div class="mt-4">
+          <a class="btn btn-outline-primary" href="https://www.google.com/maps/place/Mary+Untier+of+Knots+(+Thunba+Mudichi+Avilkum+Madha)/@12.8470523,80.1988301,17z/data=!3m1!4b1!4m6!3m5!1s0x3a525bdea85c75c1:0x7ecbbfab93534e29!8m2!3d12.8470523!4d80.2034435!16s%2Fg%2F11k4jcgppw?entry=ttu" target="_blank">
+            <i class="fas fa-map-marker-alt"></i> View Location in Google Maps
+          </a>
+        </div>
+      </div>
+
+      <!-- Leave Message -->
+      <div class="col-md-6">
+        <h5 class="fw-bold">✍️ Leave us a message</h5>
+        <form method="POST" action="{{ url_for('contact') }}">
+          <div class="mb-3">
+            <label>Your Name *</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
+          </div>
+          <div class="mb-3">
+            <label>Email Address *</label>
+            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+          </div>
+          <div class="mb-3">
+            <label>Subject</label>
+            <input type="text" name="subject" class="form-control" placeholder="Subject (optional)">
+          </div>
+          <div class="mb-3">
+            <label>Your Message *</label>
+            <textarea name="message" class="form-control" rows="4" placeholder="Type your message here..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary px-4">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<hr>
+
+<!-- Donation Section -->
+<section id="donate" class="mt-5">
+  <div class="container">
+    <h3 class="text-primary mb-4">🙏 Any Donation</h3>
+
+    <form method="POST" action="{{ url_for('donate') }}">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label>Enter your donation amount *</label>
+          <input type="number" name="amount" class="form-control" placeholder="Enter amount in ₹" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Enter First Name *</label>
+          <input type="text" name="first_name" class="form-control" placeholder="Your First Name" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Enter Mobile Number *</label>
+          <input type="tel" name="mobile" class="form-control" placeholder="Your Mobile Number" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Enter Email Address</label>
+          <input type="email" name="email" class="form-control" placeholder="Your Email (optional)">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Enter Location *</label>
+          <input type="text" name="location" class="form-control" placeholder="Your Location" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Enter City *</label>
+          <input type="text" name="city" class="form-control" placeholder="Your City" required>
+        </div>
+
+        <div class="col-12 mb-3">
+          <label>Write your comment</label>
+          <textarea name="comment" class="form-control" rows="3" placeholder="Your Message or Intention (Optional)"></textarea>
+        </div>
+
+<!--        <div class="col-md-6 mb-4 text-center">-->
+<!--          <img src="{{ url_for('static', filename='images/qr_placeholder.png') }}" alt="QR Code" class="img-fluid border p-2" style="max-height: 250px;">-->
+<!--          <p class="mt-2 small text-muted">Scan the QR code above to donate</p>-->
+<!--        </div>-->
+
+        <div class="col-md-6 mb-4 d-flex align-items-center">
+          <p class="text-danger">
+            <strong>Note:</strong> Kindly send you donation request and reach out you further.
+<!--            <strong>Note:</strong> After transaction is completed, kindly call and confirm your donation.-->
+          </p>
+        </div>
+
+        <div class="col-12 text-center">
+          <button type="submit" class="btn btn-primary px-5">Donate Now</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 

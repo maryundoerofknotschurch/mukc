@@ -10,6 +10,8 @@ ADMIN_PASSWORD = 'frvinoth@july18'
 
 NEWS_FILE = 'data/news.csv'
 SCHEDULE_FILE = 'data/schedule.csv'
+CONTACT_CSV = 'data/contact_submissions.csv'
+DONATE_CSV = 'data/donation_submissions.csv'
 os.makedirs('data', exist_ok=True)
 
 from flask_mail import Mail, Message
@@ -21,6 +23,9 @@ app.config['MAIL_USERNAME'] = 'maryundoerofknotschurch@gmail.com'  # Sender Gmai
 app.config['MAIL_PASSWORD'] = 'dkqyodpdwxadiwkg'     # Gmail App Password (not Gmail password)
 
 mail = Mail(app)
+
+# Email addresses to block
+BLACKLISTED_EMAILS = {'spammer@example.com', 'bot@spam.com', 'badguy@mail.com'}
 
 
 @app.route('/')
@@ -116,19 +121,44 @@ def add_schedule():
 def donate():
     name = request.form.get('first_name')
     mobile = request.form.get('mobile')
-    amount = request.form.get('amount')
+    # amount = request.form.get('amount')
     email = request.form.get('email')
     city = request.form.get('city')
     comment = request.form.get('comment')
 
+    # Check required fields (you can adjust which ones are required)
+    # if not name or not mobile or not amount or not city:
+    #     flash("Please fill all required fields (Name, Mobile, Amount, City).", "danger")
+    #     return redirect(url_for('home') + '#donate')
+    if not name or not mobile or not city:
+        flash("Please fill all required fields (Name, Mobile, City).", "danger")
+        return redirect(url_for('home') + '#donate')
+
+    # Block blacklisted emails
+    if email in BLACKLISTED_EMAILS:
+        # flash("Sorry, donations from this email are not accepted.", "danger")
+        return redirect(url_for('home') + '#donate')
+
+    # with open(DONATE_CSV, 'a', newline='') as f:
+    #     writer = csv.writer(f)
+    #     writer.writerow([datetime.now(), name, mobile, email, city, amount, comment])
+    # Ensure headers are written if the file doesn't exist or is empty
+    file_exists = os.path.exists(DONATE_CSV)
+    write_header = not file_exists or os.path.getsize(DONATE_CSV) == 0
+
+    with open(DONATE_CSV, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        if write_header:
+            writer.writerow(['Date', 'Name', 'Mobile', 'Email', 'City', 'Comment'])
+        writer.writerow([datetime.now().date(), name, mobile, email, city, comment])
+
     body = f"""
-    New Donation Received
+    New Donation Request Received
 
     Name: {name}
     Mobile: {mobile}
     Email: {email}
     City: {city}
-    Amount: ₹{amount}
     Comment: {comment}
     """
 
@@ -136,7 +166,7 @@ def donate():
                   recipients=['maryundoerofknotschurch@gmail.com'], body=body)
     mail.send(msg)
 
-    flash("Thank you for your donation!", "success")
+    # flash("Thank you for your donation Request!", "success")
     return redirect(url_for('home') + '#donate')
 
 @app.route('/contact', methods=['POST'])
@@ -145,6 +175,30 @@ def contact():
     email = request.form.get('email')
     subject = request.form.get('subject')
     message = request.form.get('message')
+
+    # Basic required field check
+    if not name or not email or not message:
+        flash("Please fill all the required fields (Name, Email, and Message).", "danger")
+        return redirect(url_for('home') + '#contact')
+
+    # Block blacklisted emails
+    if email in BLACKLISTED_EMAILS:
+        # flash("Sorry, submissions from this email are not accepted.", "danger")
+        return redirect(url_for('home') + '#contact')
+
+    # Save to CSV
+    # with open(CONTACT_CSV, 'a', newline='') as f:
+    #     writer = csv.writer(f)
+        # writer.writerow([datetime.now(), name, email, subject, message])
+    # Save to CSV with header check
+    file_exists = os.path.exists(CONTACT_CSV)
+    write_header = not file_exists or os.stat(CONTACT_CSV).st_size == 0
+
+    with open(CONTACT_CSV, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        if write_header:
+            writer.writerow(['Date', 'Name', 'Email', 'Subject', 'Message'])
+        writer.writerow([datetime.now().date(), name, email, subject, message])
 
     body = f"""
     New Contact Message
@@ -159,8 +213,58 @@ def contact():
                   recipients=['maryundoerofknotschurch@gmail.com'], body=body)
     mail.send(msg)
 
-    flash("Message sent successfully!", "success")
+    # flash("Message sent successfully!", "success")
     return redirect(url_for('home') + '#contact')
+
+# @app.route('/donate', methods=['POST'])
+# def donate():
+#     name = request.form.get('first_name')
+#     mobile = request.form.get('mobile')
+#     amount = request.form.get('amount')
+#     email = request.form.get('email')
+#     city = request.form.get('city')
+#     comment = request.form.get('comment')
+
+#     body = f"""
+#     New Donation Received
+
+#     Name: {name}
+#     Mobile: {mobile}
+#     Email: {email}
+#     City: {city}
+#     Amount: ₹{amount}
+#     Comment: {comment}
+#     """
+
+#     msg = Message("New Donation", sender=app.config['MAIL_USERNAME'],
+#                   recipients=['maryundoerofknotschurch@gmail.com'], body=body)
+#     mail.send(msg)
+
+#     flash("Thank you for your donation!", "success")
+#     return redirect(url_for('home') + '#donate')
+
+# @app.route('/contact', methods=['POST'])
+# def contact():
+#     name = request.form.get('name')
+#     email = request.form.get('email')
+#     subject = request.form.get('subject')
+#     message = request.form.get('message')
+
+#     body = f"""
+#     New Contact Message
+
+#     Name: {name}
+#     Email: {email}
+#     Subject: {subject}
+#     Message: {message}
+#     """
+
+#     msg = Message("New Contact Message", sender=app.config['MAIL_USERNAME'],
+#                   recipients=['maryundoerofknotschurch@gmail.com'], body=body)
+#     mail.send(msg)
+
+#     flash("Message sent successfully!", "success")
+#     return redirect(url_for('home') + '#contact')
 
 
 @app.route('/delete_news/<int:index>', methods=['POST'])
@@ -208,6 +312,95 @@ def delete_schedule(index):
 
     return redirect(url_for('home') + '#schedule')
 
+
+from flask import session, abort
+from flask import render_template
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    contact_csv = os.path.join(app.root_path, 'data', 'contact_submissions.csv')
+    donate_csv = os.path.join(app.root_path, 'data', 'donation_submissions.csv')
+
+    contact_data = []
+    donate_data = []
+    contact_headers = []
+    donate_headers = []
+
+    # Process Contact CSV
+    if os.path.exists(contact_csv):
+        with open(contact_csv, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            contact_headers = reader.fieldnames or []
+            contact_data = list(reader)
+
+    # Process Donate CSV
+    if os.path.exists(donate_csv):
+        with open(donate_csv, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            donate_headers = reader.fieldnames or []
+            donate_data = list(reader)
+
+    return render_template("admin_dashboard.html",
+                           contact_data=contact_data,
+                           donate_data=donate_data,
+                           contact_headers=contact_headers,
+                           donate_headers=donate_headers)
+
+
+
+import os
+import csv
+from flask import redirect, url_for, flash
+
+@app.route('/delete-contact/<int:index>')
+def delete_contact(index):
+    file_path = os.path.join(app.root_path, 'data', 'contact_submissions.csv')
+
+    if os.path.exists(file_path):
+        with open(file_path, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+            headers = reader.fieldnames or []
+
+        if 0 <= index < len(rows):
+            del rows[index]
+            with open(file_path, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.DictWriter(f, fieldnames=headers)
+                writer.writeheader()
+                writer.writerows(rows)
+            # flash('Contact entry deleted successfully.', 'success')
+        else:
+            # flash('Invalid contact index.', 'danger')
+            print("Invalid contact index.")
+    else:
+        # flash('Contact file not found.', 'danger')
+        print("Contact file not found.")
+
+    return redirect(url_for('admin_dashboard'))
+
+
+@app.route('/delete-donate/<int:index>')
+def delete_donate(index):
+    file_path = os.path.join(app.root_path, 'data', 'donation_submissions.csv')
+
+    if os.path.exists(file_path):
+        with open(file_path, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+            headers = reader.fieldnames or []
+
+        if 0 <= index < len(rows):
+            del rows[index]
+            with open(file_path, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.DictWriter(f, fieldnames=headers)
+                writer.writeheader()
+                writer.writerows(rows)
+            flash('Donation entry deleted successfully.', 'success')
+        else:
+            flash('Invalid donation index.', 'danger')
+    else:
+        flash('Donation file not found.', 'danger')
+
+    return redirect(url_for('admin_dashboard'))
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)

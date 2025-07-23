@@ -42,6 +42,15 @@
         <li class="nav-item"><a class="nav-link" href="#prayers">Prayers</a></li>
         <li class="nav-item"><a class="nav-link" href="#schedule">Schedule</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+        {% if session.get('admin') %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+              <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+          </li>
+        {% endif %}
+        
       </ul>
       <div class="d-flex align-items-center">
         <a href="#donate" class="btn btn-primary ms-3 me-2">Donate Now</a>
@@ -305,11 +314,11 @@ I beg you to undo it for the glory of God, once for all. You are my hope. O my L
 
     <form method="POST" action="{{ url_for('donate') }}">
       <div class="row">
-        <div class="col-md-6 mb-3">
+<!--         <div class="col-md-6 mb-3">
           <label>Enter your donation amount *</label>
           <input type="number" name="amount" class="form-control" placeholder="Enter amount in ₹" required>
         </div>
-
+ -->
         <div class="col-md-6 mb-3">
           <label>Enter First Name *</label>
           <input type="text" name="first_name" class="form-control" placeholder="Your First Name" required>

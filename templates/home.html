@@ -53,7 +53,7 @@
         
       </ul>
       <div class="d-flex align-items-center">
-        <a href="#donate" class="btn btn-primary ms-3 me-2">Donate Now</a>
+        <!-- <a href="#donate" class="btn btn-primary ms-3 me-2">Donate Now</a> -->
         {% if session.get('admin') %}
           <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary ms-2" title="Logout">
             <i class="fas fa-user-circle"></i>
@@ -308,17 +308,13 @@ I beg you to undo it for the glory of God, once for all. You are my hope. O my L
 <hr>
 
 <!-- Donation Section -->
-<section id="donate" class="mt-5">
+<!-- <section id="donate" class="mt-5">
   <div class="container">
     <h3 class="text-primary mb-4">🙏 Any Donation</h3>
 
     <form method="POST" action="{{ url_for('donate') }}">
       <div class="row">
-<!--         <div class="col-md-6 mb-3">
-          <label>Enter your donation amount *</label>
-          <input type="number" name="amount" class="form-control" placeholder="Enter amount in ₹" required>
-        </div>
- -->
+
         <div class="col-md-6 mb-3">
           <label>Enter First Name *</label>
           <input type="text" name="first_name" class="form-control" placeholder="Your First Name" required>
@@ -349,15 +345,10 @@ I beg you to undo it for the glory of God, once for all. You are my hope. O my L
           <textarea name="comment" class="form-control" rows="3" placeholder="Your Message or Intention (Optional)"></textarea>
         </div>
 
-<!--        <div class="col-md-6 mb-4 text-center">-->
-<!--          <img src="{{ url_for('static', filename='images/qr_placeholder.png') }}" alt="QR Code" class="img-fluid border p-2" style="max-height: 250px;">-->
-<!--          <p class="mt-2 small text-muted">Scan the QR code above to donate</p>-->
-<!--        </div>-->
 
         <div class="col-md-6 mb-4 d-flex align-items-center">
           <p class="text-danger">
             <strong>Note:</strong> Kindly send your donation request so we can reach out to you further.
-<!--            <strong>Note:</strong> After transaction is completed, kindly call and confirm your donation.-->
           </p>
         </div>
 
@@ -367,7 +358,7 @@ I beg you to undo it for the glory of God, once for all. You are my hope. O my L
       </div>
     </form>
   </div>
-</section>
+</section> -->
 
 
 

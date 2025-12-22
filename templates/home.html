@@ -145,7 +145,7 @@ Here, daily prayers, devotions, and spiritual activities nurture the soul, drawi
 {% for item in news %}
     <div class="mb-3 border-bottom pb-2">
       <h5 class="text-dark mb-1">{{ item.title }}</h5>
-      <p>{{ item.content }}</p>
+      <p style="white-space: pre-line;">{{ item.content }}</p>
 
       {% if session.get('admin') %}
       <form method="POST" action="{{ url_for('delete_news', index=loop.index0) }}" onsubmit="return confirm('Delete this news item?')">

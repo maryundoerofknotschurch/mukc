@@ -34,6 +34,33 @@
         <div class="alert alert-info">
             <strong>Total Visitors:</strong> {{ total_visits }}
         </div>
+        <h5>Daily Visitor Details</h5>
+
+        <table class="table table-bordered table-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>IP Address</th>
+                    <th>Hits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in daily_visits %}
+                <tr>
+                    <td>{{ row.date }}</td>
+                    <td>{{ row.ip }}</td>
+                    <td>{{ row.count }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">
+                        No visitor data
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
 
 
         <!-- Contact Submissions Table -->

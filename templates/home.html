@@ -129,13 +129,19 @@ Here, daily prayers, devotions, and spiritual activities nurture the soul, drawi
   <h3 class="text-primary mb-3">News & Events</h3>
 
   {% if session.get('admin') %}
-    <form method="POST" action="{{ url_for('add_news') }}">
+    <form method="POST" action="{{ url_for('add_news') }}" enctype="multipart/form-data">
+
       <div class="mb-2">
         <input type="text" name="title" class="form-control" placeholder="Title" required>
       </div>
       <div class="mb-2">
         <textarea name="content" class="form-control" rows="3" placeholder="News content" required></textarea>
       </div>
+      <div class="mb-2">
+        <input type="file" name="image" class="form-control" accept="image/*">
+        <small class="text-muted">Optional image</small>
+      </div>
+
       <button class="btn btn-sm btn-primary">Add News</button>
     </form>
     <hr>
@@ -145,6 +151,13 @@ Here, daily prayers, devotions, and spiritual activities nurture the soul, drawi
 {% for item in news %}
     <div class="mb-3 border-bottom pb-2">
       <h5 class="text-dark mb-1">{{ item.title }}</h5>
+      
+      {% if item.image %}
+        <img src="{{ url_for('static', filename='uploads/news/' ~ item.image) }}"
+             class="img-fluid rounded mb-2"
+             style="max-height:250px; object-fit:cover;">
+      {% endif %}
+      
       <p style="white-space: pre-line;">{{ item.content }}</p>
 
       {% if session.get('admin') %}

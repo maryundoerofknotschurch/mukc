@@ -29,6 +29,22 @@ mail = Mail(app)
 BLACKLISTED_EMAILS = {'spammer@example.com', 'bot@spam.com', 'badguy@mail.com'}
 
 
+from werkzeug.utils import secure_filename
+
+UPLOAD_NEWS = 'static/uploads/news'
+UPLOAD_SCHEDULE = 'static/uploads/schedule'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+os.makedirs(UPLOAD_NEWS, exist_ok=True)
+os.makedirs(UPLOAD_SCHEDULE, exist_ok=True)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+
+
+
 @app.route('/')
 def home():
     news = []
@@ -73,6 +89,28 @@ def logout():
     return redirect(url_for('home'))
 
 
+# @app.route('/add_news', methods=['POST'])
+# def add_news():
+#     if not session.get('admin'):
+#         flash("Unauthorized access.", "danger")
+#         return redirect(url_for('home'))
+
+#     title = request.form.get('title', '').strip()
+#     content = request.form.get('content', '').strip()
+
+#     if title and content:
+#         with open(NEWS_FILE, 'a', newline='', encoding='utf-8') as f:
+#             writer = csv.DictWriter(f, fieldnames=['title', 'content'])
+#             if f.tell() == 0:
+#                 writer.writeheader()
+#             writer.writerow({'title': title, 'content': content})
+#         flash("News added.", "success")
+#     else:
+#         flash("Title and content are required.", "warning")
+
+#     return redirect(url_for('home') + '#news')
+
+
 @app.route('/add_news', methods=['POST'])
 def add_news():
     if not session.get('admin'):
@@ -81,16 +119,24 @@ def add_news():
 
     title = request.form.get('title', '').strip()
     content = request.form.get('content', '').strip()
+    image_file = request.files.get('image')
+
+    filename = ''
+    if image_file and image_file.filename and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(UPLOAD_NEWS, filename))
 
     if title and content:
         with open(NEWS_FILE, 'a', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=['title', 'content'])
+            writer = csv.DictWriter(f, fieldnames=['title', 'content', 'image'])
             if f.tell() == 0:
                 writer.writeheader()
-            writer.writerow({'title': title, 'content': content})
+            writer.writerow({
+                'title': title,
+                'content': content,
+                'image': filename
+            })
         flash("News added.", "success")
-    else:
-        flash("Title and content are required.", "warning")
 
     return redirect(url_for('home') + '#news')
 
@@ -279,6 +325,11 @@ def delete_news(index):
             reader = list(csv.DictReader(f))
 
         if 0 <= index < len(reader):
+            if reader[index].get('image'):
+                path = os.path.join(UPLOAD_NEWS, reader[index]['image'])
+                if os.path.exists(path):
+                    os.remove(path)
+                    
             del reader[index]
             with open(NEWS_FILE, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.DictWriter(f, fieldnames=['title', 'content'])
@@ -405,3 +456,4 @@ def delete_donate(index):
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)
+

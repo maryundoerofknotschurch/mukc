@@ -325,21 +325,55 @@ def delete_news(index):
             reader = list(csv.DictReader(f))
 
         if 0 <= index < len(reader):
+
+            # delete image file if exists
             if reader[index].get('image'):
                 path = os.path.join(UPLOAD_NEWS, reader[index]['image'])
                 if os.path.exists(path):
                     os.remove(path)
-                    
+
             del reader[index]
+
+            # ✅ KEEP image column
             with open(NEWS_FILE, 'w', newline='', encoding='utf-8') as f:
-                writer = csv.DictWriter(f, fieldnames=['title', 'content'])
+                writer = csv.DictWriter(
+                    f,
+                    fieldnames=['title', 'content', 'image']
+                )
                 writer.writeheader()
                 writer.writerows(reader)
+
             flash("News entry deleted.", "success")
-        else:
-            flash("Invalid entry index.", "warning")
 
     return redirect(url_for('home') + '#news')
+
+
+# @app.route('/delete_news/<int:index>', methods=['POST'])
+# def delete_news(index):
+#     if not session.get('admin'):
+#         flash("Unauthorized access.", "danger")
+#         return redirect(url_for('home'))
+
+#     if os.path.exists(NEWS_FILE):
+#         with open(NEWS_FILE, newline='', encoding='utf-8') as f:
+#             reader = list(csv.DictReader(f))
+
+#         if 0 <= index < len(reader):
+#             if reader[index].get('image'):
+#                 path = os.path.join(UPLOAD_NEWS, reader[index]['image'])
+#                 if os.path.exists(path):
+#                     os.remove(path)
+                    
+#             del reader[index]
+#             with open(NEWS_FILE, 'w', newline='', encoding='utf-8') as f:
+#                 writer = csv.DictWriter(f, fieldnames=['title', 'content'])
+#                 writer.writeheader()
+#                 writer.writerows(reader)
+#             flash("News entry deleted.", "success")
+#         else:
+#             flash("Invalid entry index.", "warning")
+
+#     return redirect(url_for('home') + '#news')
 
 
 @app.route('/delete_schedule/<int:index>', methods=['POST'])
@@ -456,4 +490,5 @@ def delete_donate(index):
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)
+
 

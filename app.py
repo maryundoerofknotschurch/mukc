@@ -41,33 +41,82 @@ os.makedirs(UPLOAD_SCHEDULE, exist_ok=True)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-VISITS_FILE = 'data/visits.txt'
+VISIT_DAILY_FILE = 'data/visit_daily.csv'
+VISIT_TOTAL_FILE = 'data/visits.txt'
 
 def count_visit():
-    if 'visited' not in session:
-        session['visited'] = True
+    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    today = datetime.now().date().isoformat()
 
-        # Ensure file exists
-        if not os.path.exists(VISITS_FILE):
-            with open(VISITS_FILE, 'w') as f:
-                f.write('0')
+    # ---------- TOTAL VISITS ----------
+    if not os.path.exists(VISIT_TOTAL_FILE):
+        with open(VISIT_TOTAL_FILE, 'w') as f:
+            f.write('0')
 
-        with open(VISITS_FILE, 'r+') as f:
-            count = f.read().strip()
-            count = int(count) if count.isdigit() else 0
-            count += 1
+    if 'counted' not in session:
+        session['counted'] = True
+        with open(VISIT_TOTAL_FILE, 'r+') as f:
+            total = int(f.read() or 0)
             f.seek(0)
-            f.write(str(count))
+            f.write(str(total + 1))
             f.truncate()
 
+    # ---------- DAILY IP LOG ----------
+    rows = []
+    found = False
 
-def get_visit_count():
-    if not os.path.exists(VISITS_FILE):
-        return 0
-    with open(VISITS_FILE) as f:
-        value = f.read().strip()
-        return int(value) if value.isdigit() else 0
+    if os.path.exists(VISIT_DAILY_FILE):
+        with open(VISIT_DAILY_FILE, newline='', encoding='utf-8') as f:
+            rows = list(csv.DictReader(f))
+
+    for row in rows:
+        if row['date'] == today and row['ip'] == ip:
+            row['count'] = str(int(row['count']) + 1)
+            found = True
+            break
+
+    if not found:
+        rows.append({
+            'date': today,
+            'ip': ip,
+            'count': '1'
+        })
+
+    with open(VISIT_DAILY_FILE, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames=['date', 'ip', 'count']
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+# VISITS_FILE = 'data/visits.txt'
+
+# def count_visit():
+#     if 'visited' not in session:
+#         session['visited'] = True
+
+#         # Ensure file exists
+#         if not os.path.exists(VISITS_FILE):
+#             with open(VISITS_FILE, 'w') as f:
+#                 f.write('0')
+
+#         with open(VISITS_FILE, 'r+') as f:
+#             count = f.read().strip()
+#             count = int(count) if count.isdigit() else 0
+#             count += 1
+#             f.seek(0)
+#             f.write(str(count))
+#             f.truncate()
+
+
+# def get_visit_count():
+#     if not os.path.exists(VISITS_FILE):
+#         return 0
+#     with open(VISITS_FILE) as f:
+#         value = f.read().strip()
+#         return int(value) if value.isdigit() else 0
 
 
 
@@ -475,7 +524,19 @@ def admin_dashboard():
     contact_headers = []
     donate_headers = []
 
-    total_visits = get_visit_count()
+    # total_visits = get_visit_count()
+    # ---- VISITOR STATS ----
+    total_visits = 0
+    daily_visits = []
+
+if os.path.exists(VISIT_TOTAL_FILE):
+    with open(VISIT_TOTAL_FILE) as f:
+        total_visits = f.read().strip()
+
+if os.path.exists(VISIT_DAILY_FILE):
+    with open(VISIT_DAILY_FILE, newline='', encoding='utf-8') as f:
+        daily_visits = list(csv.DictReader(f))
+
 
     # Process Contact CSV
     if os.path.exists(contact_csv):
@@ -495,7 +556,7 @@ def admin_dashboard():
                            contact_data=contact_data,
                            donate_data=donate_data,
                            contact_headers=contact_headers,
-                           donate_headers=donate_headers, total_visits=total_visits)
+                           donate_headers=donate_headers, total_visits=total_visits,daily_visits=daily_visits)
 
 
 
@@ -556,6 +617,7 @@ def delete_donate(index):
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)
+
 
 
 

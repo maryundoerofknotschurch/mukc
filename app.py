@@ -529,13 +529,13 @@ def admin_dashboard():
     total_visits = 0
     daily_visits = []
 
-if os.path.exists(VISIT_TOTAL_FILE):
-    with open(VISIT_TOTAL_FILE) as f:
-        total_visits = f.read().strip()
-
-if os.path.exists(VISIT_DAILY_FILE):
-    with open(VISIT_DAILY_FILE, newline='', encoding='utf-8') as f:
-        daily_visits = list(csv.DictReader(f))
+    if os.path.exists(VISIT_TOTAL_FILE):
+        with open(VISIT_TOTAL_FILE) as f:
+            total_visits = f.read().strip()
+    
+    if os.path.exists(VISIT_DAILY_FILE):
+        with open(VISIT_DAILY_FILE, newline='', encoding='utf-8') as f:
+            daily_visits = list(csv.DictReader(f))
 
 
     # Process Contact CSV
@@ -556,7 +556,8 @@ if os.path.exists(VISIT_DAILY_FILE):
                            contact_data=contact_data,
                            donate_data=donate_data,
                            contact_headers=contact_headers,
-                           donate_headers=donate_headers, total_visits=total_visits,daily_visits=daily_visits)
+                           donate_headers=donate_headers, total_visits=total_visits, 
+                           daily_visits=daily_visits)
 
 
 
@@ -617,6 +618,7 @@ def delete_donate(index):
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)
+
 
 
 

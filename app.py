@@ -111,6 +111,36 @@ def logout():
 #     return redirect(url_for('home') + '#news')
 
 
+# @app.route('/add_news', methods=['POST'])
+# def add_news():
+#     if not session.get('admin'):
+#         flash("Unauthorized access.", "danger")
+#         return redirect(url_for('home'))
+
+#     title = request.form.get('title', '').strip()
+#     content = request.form.get('content', '').strip()
+#     image_file = request.files.get('image')
+
+#     filename = ''
+#     if image_file and image_file.filename and allowed_file(image_file.filename):
+#         filename = secure_filename(image_file.filename)
+#         image_file.save(os.path.join(UPLOAD_NEWS, filename))
+
+#     if title and content:
+#         with open(NEWS_FILE, 'a', newline='', encoding='utf-8') as f:
+#             writer = csv.DictWriter(f, fieldnames=['title', 'content', 'image'])
+#             if f.tell() == 0:
+#                 writer.writeheader()
+#             writer.writerow({
+#                 'title': title,
+#                 'content': content,
+#                 'image': filename
+#             })
+#         flash("News added.", "success")
+
+#     return redirect(url_for('home') + '#news')
+
+
 @app.route('/add_news', methods=['POST'])
 def add_news():
     if not session.get('admin'):
@@ -121,24 +151,29 @@ def add_news():
     content = request.form.get('content', '').strip()
     image_file = request.files.get('image')
 
+    if not title or not content:
+        flash("Title and content are required.", "warning")
+        return redirect(url_for('home') + '#news')
+
     filename = ''
     if image_file and image_file.filename and allowed_file(image_file.filename):
         filename = secure_filename(image_file.filename)
         image_file.save(os.path.join(UPLOAD_NEWS, filename))
 
-    if title and content:
-        with open(NEWS_FILE, 'a', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=['title', 'content', 'image'])
-            if f.tell() == 0:
-                writer.writeheader()
-            writer.writerow({
-                'title': title,
-                'content': content,
-                'image': filename
-            })
-        flash("News added.", "success")
+    with open(NEWS_FILE, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=['title', 'content', 'image'])
+        if f.tell() == 0:
+            writer.writeheader()
+        writer.writerow({
+            'title': title,
+            'content': content,
+            'image': filename   # ALWAYS written
+        })
 
+    flash("News added.", "success")
     return redirect(url_for('home') + '#news')
+
+
 
 
 @app.route('/add_schedule', methods=['POST'])
@@ -490,5 +525,6 @@ def delete_donate(index):
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)
+
 
 

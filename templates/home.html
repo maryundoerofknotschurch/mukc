@@ -152,7 +152,7 @@ Here, daily prayers, devotions, and spiritual activities nurture the soul, drawi
     <div class="mb-3 border-bottom pb-2">
       <h5 class="text-dark mb-1">{{ item.title }}</h5>
       
-      {% if item.image %}
+      {% if item.image and item.image|length > 0 %}
         <img src="{{ url_for('static', filename='uploads/news/' ~ item.image) }}"
              class="img-fluid rounded mb-2"
              style="max-height:250px; object-fit:cover;">

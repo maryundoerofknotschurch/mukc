@@ -136,7 +136,10 @@
 </body>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
     const rowsPerPage = 10;
+    const pageBlockSize = 10;      // show only 10 page numbers
+
     const tbody = document.getElementById("visitorTableBody");
     const rows = Array.from(tbody.querySelectorAll("tr"));
     const pagination = document.getElementById("visitorPagination");
@@ -147,14 +150,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalPages = Math.ceil(rows.length / rowsPerPage);
 
     function showPage(page) {
+        if (page < 1 || page > totalPages) return;
         currentPage = page;
 
         rows.forEach((row, index) => {
             row.style.display =
                 index >= (page - 1) * rowsPerPage &&
-                index < page * rowsPerPage
-                    ? ""
-                    : "none";
+                index < page * rowsPerPage ? "" : "none";
         });
 
         renderPagination();
@@ -163,15 +165,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderPagination() {
         pagination.innerHTML = "";
 
+        const blockStart = Math.floor((currentPage - 1) / pageBlockSize) * pageBlockSize + 1;
+        const blockEnd = Math.min(blockStart + pageBlockSize - 1, totalPages);
+
         // Previous
         const prev = document.createElement("li");
         prev.className = "page-item" + (currentPage === 1 ? " disabled" : "");
         prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
-        prev.onclick = () => currentPage > 1 && showPage(currentPage - 1);
+        prev.onclick = () => showPage(currentPage - 1);
         pagination.appendChild(prev);
 
-        // Page numbers
-        for (let i = 1; i <= totalPages; i++) {
+        // Page numbers (10 only)
+        for (let i = blockStart; i <= blockEnd; i++) {
             const li = document.createElement("li");
             li.className = "page-item" + (i === currentPage ? " active" : "");
             li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
@@ -183,12 +188,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const next = document.createElement("li");
         next.className = "page-item" + (currentPage === totalPages ? " disabled" : "");
         next.innerHTML = `<a class="page-link" href="#">Next</a>`;
-        next.onclick = () => currentPage < totalPages && showPage(currentPage + 1);
+        next.onclick = () => showPage(currentPage + 1);
         pagination.appendChild(next);
     }
 
     showPage(1);
 });
 </script>
+
 
 </html>

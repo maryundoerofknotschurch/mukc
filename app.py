@@ -537,6 +537,11 @@ def admin_dashboard():
         with open(VISIT_DAILY_FILE, newline='', encoding='utf-8') as f:
             daily_visits = list(csv.DictReader(f))
 
+        daily_visits.sort(
+            key=lambda x: (x['date'], x['ip']),
+            reverse=True
+        )
+
 
     # Process Contact CSV
     if os.path.exists(contact_csv):
@@ -618,6 +623,7 @@ def delete_donate(index):
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)
+
 
 
 

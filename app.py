@@ -344,8 +344,8 @@ def contact():
     import re
     link_pattern = re.compile(r'(https?:\/\/|www\.|\.com|\.net|\.org|\.in|\.co|\.io|\.xyz)', re.IGNORECASE)
 
-    if link_pattern.search(message):
-        # flash("Website links are not allowed in messages.", "danger")
+    if link_pattern.search(subject) or link_pattern.search(message):
+        # flash("Website links are not allowed in Subject or Message.", "danger")
         return redirect(url_for('home') + '#contact')
 
     # Block blacklisted emails
@@ -630,6 +630,7 @@ def delete_donate(index):
 
 # if __name__ == '__main__':
     # app.run("0.0.0.0",port=5001,debug=True)
+
 
 
 
